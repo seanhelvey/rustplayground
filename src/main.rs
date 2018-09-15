@@ -3,11 +3,16 @@
 
 #[macro_use] extern crate rocket;
 
-#[get("/<name>/<age>")]
-fn hello(name: String, age: u8) -> String {
+#[get("/")]
+fn hello() -> String {
+    format!("Try /hello/<name>/<age>")
+}
+
+#[get("/hello/<name>/<age>")]
+fn hello_name_age(name: String, age: u8) -> String {
     format!("Hello, {} year old named {}!", age, name)
 }
 
 fn main() {
-    rocket::ignite().mount("/hello", routes![hello]).launch();
+    rocket::ignite().mount("/", routes![hello,hello_name_age]).launch();
 }
